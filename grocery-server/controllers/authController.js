@@ -2,17 +2,24 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
+require('dotenv').config();  // Load environment variables
 
-
-
+// Login user
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log('🔹 Login attempt:', { email, password });
+        console.log('🔹 Login attempt:', { email });
 
+        // Check if email and password are provided
+        if (!email || !password) {
+            return res.status(400).json({ msg: "Email and password are required" });
+        }
+
+        // Find user by email
         let user = await User.findOne({ email });
         let isAdmin = false;
 
+        // If no user found in users collection, check in the admins collection
         if (!user) {
             user = await Admin.findOne({ email });
             if (user) {
@@ -37,50 +44,51 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ msg: "Invalid credentials" });
         }
 
-        // Generate JWT token
+        // Generate JWT Token
         const token = jwt.sign(
             { id: user._id, isAdmin },  
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OWJhNGYxMjk3MmRlMDdiZTc1MGMxYyIsImlhdCI6MTczODMzODQ2MCwiZXhwIjoxNzM4MzQyMDYwfQ.mGx-_UMYaYo4ey6n2IGfywBRTUj_XYgBydi-MbhtIak', 
+            process.env.JWT_SECRET,  // Use environment variable for the secret key
             { expiresIn: '1h' }
         );
 
-        console.log('✅ Login successful, sending response');
-
-        res.json({ 
+        console.log('✅ Login successful');
+        res.json({
             token, 
-            user: { id: user._id, email: user.email, isAdmin } 
+            user: { 
+                id: user._id, 
+                name: user.name, 
+                email: user.email,
+                isAdmin, // Ensure `isAdmin` is included in the response
+ 
+            }
         });
 
     } catch (error) {
         console.error('🔥 Login error:', error);
-        res.status(500).json({ msg: "Server error", error });
+        res.status(500).json({ msg: "Server error" });
     }
 };
 
-
+// Register user
 const registerUser = async (req, res) => {
     try {
-        const { email, password, isAdmin } = req.body;
+        const { name, email, password } = req.body;
 
-        // Check if user/admin already exists
-        let existingUser = await User.findOne({ email });
-        let existingAdmin = await Admin.findOne({ email });
-
-        if (existingUser || existingAdmin) {
-            return res.status(400).json({ msg: "User already exists" });
+        // Check if email and password are provided
+        if (!email || !password) {
+            return res.status(400).json({ msg: "Email and password are required" });
         }
+
+        // Check if user already exists
+        let existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ msg: "User already exists" });
 
         // Hash the password before saving
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Save in correct collection
-        let newUser;
-        if (isAdmin) {
-            newUser = new Admin({ email, password: hashedPassword });
-        } else {
-            newUser = new User({ email, password: hashedPassword });
-        }
+        // Create a new user
+        let newUser = new User({ name, email, password: hashedPassword });
 
         await newUser.save();
         res.status(201).json({ msg: "User registered successfully" });
@@ -91,19 +99,9 @@ const registerUser = async (req, res) => {
     }
 };
 
-
-const logoutUser = async (req, res) => {
-    try {
-        res.json({ msg: "Logout successful" });
-    } catch (error) {
-        res.status(500).json({ msg: "Server error", error });
-    }
+// Logout user
+const logoutUser = (req, res) => {
+    res.json({ msg: "Logout successful" });
 };
 
-
-module.exports = {
-    loginUser,
-    registerUser,
-    logoutUser,
-};
-
+module.exports = { loginUser, registerUser, logoutUser };

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('./models/Product');
 
-mongoose.connect('your_mongodb_connection_string', {
+mongoose.connect('mongodb+srv://div15:2fJJT5hWm2PGEtyb@webapp.zvpme.mongodb.net/groceryDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

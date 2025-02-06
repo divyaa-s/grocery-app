@@ -1,41 +1,52 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // Load environment variables
+const dotenv = require('dotenv');
+const productsRoutes = require('./routes/products'); // Import the products route
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require("./routes/userRoutes"); // Import routes
+
+
+dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parses form data
+
 app.use(cors()); // Enable CORS
 
-// ✅ Asynchronous MongoDB Connection
+// Connect to MongoDB
 const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI || '<mongodb_uri>', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('✅ Connected to MongoDB');
-    } catch (err) {
-        console.error('❌ MongoDB Connection Error:', err);
-        process.exit(1); // Exit process if DB connection fails
-    }
+  try {
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://div15:2fJJT5hWm2PGEtyb@webapp.zvpme.mongodb.net/groceryDB', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Connected to MongoDB');
+  } catch (err) {
+    console.error('❌ MongoDB Connection Error:', err);
+    process.exit(1); // Exit process if DB connection fails
+  }
 };
 
-// ✅ Call the function to connect
 connectDB();
 
-// Routes
+// Use the product routes for handling product-related requests
+app.use('/api/products', productsRoutes);  // This should handle all routes starting with /api/products
+app.use('/api/auth', authRoutes);  // Add this line to handle authentication routes
+app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use("/api", userRoutes); // Use the user routes
 
-// ✅ Default Route (Fixes "Cannot GET /" Error)
+// Default Route
 app.get('/', (req, res) => {
-    res.send('🚀 Grocery App Server is Running!');
+  res.send('🚀 Grocery App Server is Running!');
 });
 
-// Start Server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
