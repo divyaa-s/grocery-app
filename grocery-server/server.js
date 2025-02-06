@@ -13,7 +13,7 @@ app.use(cors()); // Enable CORS
 // ✅ Asynchronous MongoDB Connection
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://div15:2fJJT5hWm2PGEtyb@webapp.zvpme.mongodb.net/groceryDB', {
+        await mongoose.connect(process.env.MONGO_URI || '<mongodb_uri>', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
