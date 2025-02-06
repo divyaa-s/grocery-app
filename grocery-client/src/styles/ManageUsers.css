@@ -1,0 +1,45 @@
+.manage-users {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .manage-users h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .manage-users ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .manage-users li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+  }
+  
+  .manage-users li:last-child {
+    border-bottom: none;
+  }
+  
+  .manage-users button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .manage-users button:hover {
+    background-color: #cc0000;
+  }
+  

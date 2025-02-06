@@ -1,0 +1,22 @@
+.checkout {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .checkout h2 {
+    font-size: 24px;
+  }
+  
+  .checkout .checkout-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .checkout .checkout-btn:hover {
+    background-color: #45a049;
+  }
+  

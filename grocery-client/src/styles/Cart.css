@@ -1,0 +1,100 @@
+
+.cart {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 0; /* Compact padding */
+  border-bottom: 1px solid #ddd;
+  gap: 5px; /* Adjust spacing between elements */
+}
+
+.cart li img {
+  width: 60px; /* Compact image size */
+  height: 60px;
+  margin-right: 10px; /* Space between image and text */
+  object-fit: cover; /* Ensure image fits nicely */
+  border-radius: 5px; /* Optional: Add rounded corners */
+}
+
+.cart li .product-info {
+  flex-grow: 1; /* Allow product info to take up more space */
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.cart li .product-info span {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column; /* Align text vertically */
+  justify-content: center; /* Center align text vertically */
+  margin-left: 10px; /* Space between image and text */
+  flex-grow: 1; /* Allow it to grow to take up available space */
+}
+
+.cart-item-name {
+  font-size: 1.1rem; /* Standard font size for the name */
+  font-weight: bold; /* Make the item name stand out */
+  color: #333; /* Dark color for readability */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+.cart-item-price {
+  font-size: 1rem; /* Slightly smaller font for price */
+  color: #777; /* Subtle color for price */
+  margin: 0; /* Remove default paragraph margin */
+  margin-top: 5px; /* Add a bit of space below the name */
+}
+
+
+.remove-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem; /* Reduce padding for a smaller button */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  flex-shrink: 0; /* Prevent the button from stretching */
+  width: auto; /* Adjust width automatically based on content */
+}
+
+.remove-btn:hover {
+  background-color: #ff1a1a;
+}
+
+.cart-total {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
