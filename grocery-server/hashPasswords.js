@@ -4,7 +4,7 @@ const User = require('./models/User');
 const Admin = require('./models/Admin');
 
 // MongoDB Connection
-mongoose.connect('<mongodb+srv://div15:2fJJT5hWm2PGEtyb@webapp.zvpme.mongodb.net/groceryDB>', {
+mongoose.connect('<connection_string>', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("✅ Connected to MongoDB"))
